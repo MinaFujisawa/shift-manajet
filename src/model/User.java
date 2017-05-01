@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import application.DatabaseConnection;
+import utils.UserType;
 
 public class User {
 	
@@ -11,7 +12,7 @@ public class User {
 	private String email;
 	private String password;
 	private String name;
-	private String type;
+	private UserType type;
 	
 	public Long getId() {
 		return id;
@@ -46,14 +47,14 @@ public class User {
 	}
 
 
-	public String getType() {
+	public UserType getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(UserType type) {
 		this.type = type;
 	}
-	
+
 	public void login(String email, String password){
 		ResultSet rs = DatabaseConnection.executeQuery("select * from user where email = '"+email 
 				+"' and password = '" + password + "'");
@@ -71,7 +72,7 @@ public class User {
 		this.email = rs.getString("email");
 		this.password = rs.getString("password");
 		this.name = rs.getString("name");
-		this.type = rs.getString("type");
+		this.type = UserType.valueOf(rs.getString("type"));
 	}
 
 }

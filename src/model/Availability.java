@@ -1,12 +1,12 @@
 package model;
 
-import java.sql.Date;
 import java.sql.Time;
 
-public class Shift {
+public class Availability {
 	
 	private Long id;
-	private Date date;
+	private Employee employee;
+	private Integer weekDay;
 	private Time startTime;
 	private Time endTime;
 	
@@ -16,11 +16,17 @@ public class Shift {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Date getDate() {
-		return date;
+	public Employee getEmployee() {
+		return employee;
 	}
-	public void setDate(Date date) {
-		this.date = date;
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+	public Integer getWeekDay() {
+		return weekDay;
+	}
+	public void setWeekDay(Integer weekDay) {
+		this.weekDay = weekDay;
 	}
 	public Time getStartTime() {
 		return startTime;
