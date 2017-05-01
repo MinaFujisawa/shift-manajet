@@ -11,8 +11,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.User;
 
@@ -35,7 +38,6 @@ public class LoginView extends Application{
 			scene.getStylesheets().add(getClass().getResource("../application/application.css").toExternalForm());
 			
 			
-			
 			TextField username = new TextField();
 			grid.add(username, 1, 1);
 			Label labelUsername = new Label();
@@ -51,6 +53,11 @@ public class LoginView extends Application{
 			labelPassword.setLabelFor(password);
 			grid.add(labelPassword, 0, 2);
 			
+			
+			Text loginMessage = new Text();
+			grid.add(loginMessage, 0, 5);
+			GridPane.setColumnSpan(loginMessage, 2);
+			
 			Button btnLogin = new Button("Login");
 			btnLogin.setOnAction(new EventHandler<ActionEvent>() {
 				
@@ -59,7 +66,8 @@ public class LoginView extends Application{
 					if(controller.login(username.getText(), password.getText())){
 						System.out.println("Login sucessfull!");
 					}else{
-						System.out.println("Invalid email/password.");
+						loginMessage.setText("Invalid email/password.");
+						loginMessage.setFill(Color.RED);
 					}
 				}
 			});
