@@ -1,1 +1,1 @@
-# shift-manajet
+# Shift ManaJet
