@@ -1,4 +1,4 @@
-package utils;
+package application;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -36,7 +36,7 @@ public class DatabaseConnection {
 			       		+ prop.getProperty("database") + "?" 
 			    		+ "user=" + prop.getProperty("dbuser")
 			       		+ "&password="+ prop.getProperty("dbpassword")
-			       		+ "autoReconnect=true&useSSL=false");
+			       		+ "&autoReconnect=true&useSSL=false");
 			} catch (SQLException ex) {
 			    ex.printStackTrace();
 			} catch (FileNotFoundException e) {
