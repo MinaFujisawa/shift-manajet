@@ -72,7 +72,7 @@ public class User {
 		this.email = rs.getString("email");
 		this.password = rs.getString("password");
 		this.name = rs.getString("name");
-		this.type = UserType.valueOf(rs.getString("type"));
+		this.type = UserType.getEnum(rs.getString("type"));
 	}
 
 }

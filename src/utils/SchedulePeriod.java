@@ -10,9 +10,17 @@ public enum SchedulePeriod {
 	SchedulePeriod(Integer value){
 		this.value = value;
 	}
-	
-	public Integer getValue(){
-		return this.value;
+
+	public Integer getValue() {
+		return value;
 	}
 
+	public static SchedulePeriod getEnum(Integer value){
+		for(SchedulePeriod e : SchedulePeriod.values()){
+			if(e.value == value){
+				return e;
+			}
+		}
+		return null;
+	}
 }

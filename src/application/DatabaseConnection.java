@@ -32,7 +32,7 @@ public class DatabaseConnection {
 				prop.load(input);
 				
 			    connection =
-			       DriverManager.getConnection("jdbc:mysql://localhost/"
+			       DriverManager.getConnection("jdbc:mysql://"+ prop.getProperty("dbhost") +"/"
 			       		+ prop.getProperty("database") + "?" 
 			    		+ "user=" + prop.getProperty("dbuser")
 			       		+ "&password="+ prop.getProperty("dbpassword")

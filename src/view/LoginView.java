@@ -63,6 +63,7 @@ public class LoginView extends Application{
 				
 				@Override
 				public void handle(ActionEvent event) {
+					loginMessage.setText("");
 					if(controller.login(username.getText(), password.getText())){
 						System.out.println("Login sucessfull!");
 					}else{
