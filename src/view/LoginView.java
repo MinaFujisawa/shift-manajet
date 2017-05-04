@@ -1,5 +1,7 @@
 package view;
 
+import java.net.URL;
+
 import controller.LoginController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -34,6 +36,8 @@ public class LoginView extends View{
 			
 			//Create scene (window) and adding the grid that is the root element
 			Scene scene = new Scene(grid,300,275);
+			//Import general css file
+			scene.getStylesheets().add(new URL("file:resources/css/application.css").toExternalForm());
 			
 			
 			//Create username input field
