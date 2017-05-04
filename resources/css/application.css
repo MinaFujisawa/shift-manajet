@@ -3,3 +3,24 @@
 .menu-bar{
 	-fx-background-color: white;
 	}
+	
+.menu{
+	
+}
+
+.menu-item{
+	
+}
+
+.label{
+	
+}
+
+.text-field{
+	
+}
+
+.button{
+	-fx-background-color: #00a99d;
+	-fx-font-size: 12px;
+}
