@@ -7,7 +7,7 @@ public class LoginController extends Controller{
 		User user = new User();
 		user.login(email, password);
 		if(user.getId() != null){
-			loggedUser = user;
+			setLoggedUser(user);
 			return true;
 		}
 		return false;

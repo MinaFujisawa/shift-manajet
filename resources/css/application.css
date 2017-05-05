@@ -2,10 +2,10 @@
 
 .menu-bar{
 	-fx-background-color: white;
+	-fx-horizontal-grid-lines-visible: 1;	
 	}
 	
 .menu{
-	
 }
 
 .menu-item{
@@ -23,4 +23,16 @@
 .button{
 	-fx-background-color: #00a99d;
 	-fx-font-size: 12px;
+}
+
+#menu-nav-bar{
+	
+	-fx-background-color: white;
+}
+#menu-nav-bar .button{
+	-fx-background-color: white;
+	-fx-padding: 0 20px 0 20px;
+}
+#logged-user{
+	-fx-alignment: center_right;
 }
