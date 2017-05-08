@@ -6,6 +6,8 @@ import java.sql.Time;
 public class Shift {
 	
 	private Long id;
+	private User user;
+	private Schedule schedule;
 	private Date date;
 	private Time startTime;
 	private Time endTime;
@@ -15,6 +17,18 @@ public class Shift {
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public Schedule getSchedule() {
+		return schedule;
+	}
+	public void setSchedule(Schedule schedule) {
+		this.schedule = schedule;
 	}
 	public Date getDate() {
 		return date;
