@@ -1,5 +1,9 @@
 package model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import application.DatabaseConnection;
 import utils.SchedulePeriod;
 
 public class Team {
@@ -8,6 +12,25 @@ public class Team {
 	private String name;
 	private SchedulePeriod scheduleType;
 	private Manager manager;
+	
+	public Team(){
+		
+	}
+	
+	public Team(Long teamId){
+		try {
+			ResultSet rs = DatabaseConnection.executeQuery("SELECT * from team WHERE id = "+teamId);
+			if(rs.next()){
+				this.id = rs.getLong("id");
+				this.name = rs.getString("name");
+				this.scheduleType = SchedulePeriod.getEnum(rs.getInt("periodType"));
+				this.manager = new Manager(rs.getLong("managerUserId"));
+				this.manager.setTeam(this);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public Long getId() {
 		return id;

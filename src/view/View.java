@@ -1,10 +1,7 @@
 package view;
 
-import javax.swing.plaf.InsetsUIResource;
-
 import controller.Controller;
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;

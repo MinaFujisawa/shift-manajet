@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-public class Employee {
+public class Employee extends User{
 	
 	private ArrayList<Shift> shifts;
 

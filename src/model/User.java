@@ -67,7 +67,7 @@ public class User {
 		}
 	}
 	
-	private void populateUser(ResultSet rs) throws SQLException{
+	protected void populateUser(ResultSet rs) throws SQLException{
 		this.id = rs.getLong("id");
 		this.email = rs.getString("email");
 		this.password = rs.getString("password");
