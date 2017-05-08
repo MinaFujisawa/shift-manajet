@@ -1,10 +1,17 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 
+
+.root{
+    -fx-font-family: "Arial";
+    -fx-background: #f2f2f2;
+}
+
+
 .menu-bar{
 	-fx-background-color: white;
 	-fx-horizontal-grid-lines-visible: 1;	
 	}
-	
+
 .menu{
 }
 
@@ -13,7 +20,7 @@
 }
 
 .label{
-	
+	-fx-text-fill: #636363;
 }
 
 .text-field{
@@ -21,7 +28,10 @@
 }
 .button{
 	-fx-background-color: #00a99d;
-	-fx-font-size: 12px;
+	-fx-font-size: 14px;
+	-fx-text-fill: #ffffff;
+	-fx-padding: 15 20;
+	-fx-background-radius: 5;
 }
 
 #menu-nav-bar{
@@ -31,10 +41,16 @@
 #menu-nav-bar .button{
 	-fx-background-color: white;
 	-fx-padding: 0 20px 0 20px;
+	-fx-text-fill: #00a99d;
 }
+
 #logged-user{
 	-fx-alignment: center_right;
 }
+
 #schedule-calendar{
 	-fx-border-color: gray;
+}
+#set-start-date .label{
+
 }
