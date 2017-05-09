@@ -14,6 +14,21 @@ public class User {
 	private String name;
 	private UserType type;
 	
+	public User(){
+		
+	}
+	
+	public User(Long userId){
+		try{
+			ResultSet rs = DatabaseConnection.executeQuery("select * from user where id ="+userId);
+			if(rs.next()){
+				populateUser(rs);
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public Long getId() {
 		return id;
 	}

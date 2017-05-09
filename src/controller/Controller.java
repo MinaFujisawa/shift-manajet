@@ -1,5 +1,6 @@
 package controller;
 
+import model.Manager;
 import model.User;
 
 public class Controller {
@@ -18,6 +19,10 @@ public class Controller {
 		if(loggedUser == null){
 			Controller.loggedUser = loggedUser;
 		}
+	}
+	
+	public Manager getLoggedUserAsManager(){
+		return new Manager(getLoggedUser());
 	}
 	
 }

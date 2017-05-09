@@ -4,14 +4,13 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import model.Manager;
 import model.Schedule;
+import model.Team;
 
 public class ManagerScheduleController extends Controller{
 	
 	public Schedule getSchedule(Long scheduleId){
-		Schedule schedule = new Schedule(scheduleId);
-		return schedule;
+		return new Schedule(scheduleId);
 	}
 	
 	public Schedule getNewSchedule(){
@@ -20,7 +19,7 @@ public class ManagerScheduleController extends Controller{
 		GregorianCalendar endDate = new GregorianCalendar();
 		endDate.setTime(new Date(System.currentTimeMillis()));
 		
-		switch (new Manager(getLoggedUser()).getTeam().getScheduleType()) {
+		switch (new Team(getLoggedUserAsManager()).getScheduleType()) {
 		case WEEKLY:
 			endDate.add(Calendar.DAY_OF_WEEK, 7);
 			break;
@@ -33,6 +32,8 @@ public class ManagerScheduleController extends Controller{
 		}		
 		schedule.setEndDate(new Date(endDate.getTimeInMillis()));
 		return schedule;
-	}
+	}	
+	
+	
 
 }
