@@ -34,8 +34,12 @@
 	-fx-background-radius: 5;
 }
 
+.button:hover {
+    -fx-cursor: hand;
+}
+
 #menu-nav-bar{
-	
+	-fx-font-weight : bold;
 	-fx-background-color: white;
 }
 #menu-nav-bar .button{
@@ -51,6 +55,55 @@
 #schedule-calendar{
 	-fx-border-color: gray;
 }
-#set-start-date .label{
 
+/* -------------------------
+CreateShiftSetStartDayView
+---------------------------*/
+
+.date-picker-popup > .month-year-pane {
+    -fx-padding: 0.588883em 0.5em 0.666667em 0.5em; /* 7 6 8 6 */
+    -fx-background-color: derive(-fx-box-border,30%),
+        linear-gradient(to bottom, derive(-fx-base,-3%),
+                                   derive(-fx-base,5%) 50%,
+                                   derive(-fx-base,-3%));
+    -fx-background-insets: 0 0 0 0, 0 0 1 0;
+    -fx-text-fill : red;
+}
+
+#set-start-date .combo-box-base {
+    -fx-border : white;
+    -fx-background-color : white;
+}
+#set-start-date .combo-box-base:focused {
+    -fx-background-color: transparent;
+    -fx-border : white;
+}
+.date-picker .text-field{
+    -fx-padding : 15;
+    -fx-background-color : white;
+}
+
+.date-picker > .arrow-button {
+    -fx-background-color : white;
+}
+.date-picker > .arrow-button:hover{
+    -fx-cursor: hand;
+}
+
+.date-picker-popup > * > .today {
+    -fx-background-color: #00a99d;;
+}
+.date-picker-popup > * > .day-cell:hover,
+.date-picker-popup > * > .selected,
+.date-picker-popup > * > .previous-month.selected,
+.date-picker-popup > * > .next-month.selected {
+    -fx-background-color: #00a99d;;
+}
+
+.date-picker .button{
+        -fx-background-color: transparent;
+    	-fx-font-size: 14px;
+    	-fx-text-fill: #ffffff;
+    	-fx-padding: 10;
+    	-fx-background-radius: 5;
 }
