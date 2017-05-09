@@ -53,7 +53,8 @@
 }
 
 #schedule-calendar{
-	-fx-border-color: gray;
+	-fx-min-width: 100%;
+	-fx-grid-lines-visible: true;
 }
 
 /* -------------------------
@@ -91,13 +92,13 @@ CreateShiftSetStartDayView
 }
 
 .date-picker-popup > * > .today {
-    -fx-background-color: #00a99d;;
+    -fx-background-color: #00a99d;
 }
 .date-picker-popup > * > .day-cell:hover,
 .date-picker-popup > * > .selected,
 .date-picker-popup > * > .previous-month.selected,
 .date-picker-popup > * > .next-month.selected {
-    -fx-background-color: #00a99d;;
+    -fx-background-color: #00a99d;
 }
 
 .date-picker .button{

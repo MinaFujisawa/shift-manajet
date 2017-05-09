@@ -10,8 +10,7 @@ import model.Team;
 public class ManagerScheduleController extends Controller{
 	
 	public Schedule getSchedule(Long scheduleId){
-		Schedule schedule = new Schedule(scheduleId);
-		return schedule;
+		return new Schedule(scheduleId);
 	}
 	
 	public Schedule getNewSchedule(){
@@ -34,5 +33,7 @@ public class ManagerScheduleController extends Controller{
 		schedule.setEndDate(new Date(endDate.getTimeInMillis()));
 		return schedule;
 	}	
+	
+	
 
 }
