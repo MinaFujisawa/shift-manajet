@@ -1,5 +1,6 @@
 package view;
 
+import controller.BasicSettingController;
 import controller.LoginController;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
@@ -26,88 +27,17 @@ import java.util.Random;
 import static com.sun.javafx.tools.resource.DeployResource.Type.data;
 
 public class BasicSettingView extends View{
-//
-    private final TableView<Position> table = new TableView<>();
-    private final ObservableList<Position> data =
-            FXCollections.observableArrayList();
-    final HBox hb = new HBox();
-//
-//    public static void main(String[] args) {
-//        launch(args);
-//    }
-//
-//    @Override
-//    public void start(Stage stage) {
-//        Scene scene = new Scene(new Group());
-//        stage.setTitle("Table View Sample");
-//        stage.setWidth(1000);
-//        stage.setHeight(760);
-//
-//        final Label label = new Label("Create shift position");
-//        label.setFont(new Font("Arial", 20));
-//
-//        table.setEditable(true);
-//
-//        TableColumn positionNameCol = new TableColumn("Position name");
-//        positionNameCol.setMinWidth(400);
-//        positionNameCol.setCellValueFactory(
-//                new PropertyValueFactory<>("positionName"));
-//
-//
-//
-//        table.setItems(data);
-//        table.getColumns().addAll(positionNameCol);
-//
-//        final TextField addPositionName = new TextField();
-//        addPositionName.setPromptText("Position name");
-//        addPositionName.setMaxWidth(positionNameCol.getPrefWidth());
-//
-//        final Button addButton = new Button("Add");
-//        addButton.setOnAction((ActionEvent e) -> {
-//            data.add(new Person(
-//                    addPositionName.getText()));
-//            addPositionName.clear();
-//        });
-//
-//        hb.getChildren().addAll(addPositionName, addButton);
-//        hb.setSpacing(3);
-//
-//        final VBox vbox = new VBox();
-//        vbox.setSpacing(5);
-//        vbox.setPadding(new Insets(10, 0, 0, 10));
-//        vbox.getChildren().addAll(label, table, hb);
-//
-//        ((Group) scene.getRoot()).getChildren().addAll(vbox);
-//
-//        stage.setScene(scene);
-//        stage.show();
-//    }
-//
-//    public static class Person {
-//
-//        private final SimpleStringProperty positionName;
-//
-//        private Person(String pName) {
-//            this.positionName = new SimpleStringProperty(pName);
-//        }
-//
-//        public String getPositionName() {
-//            return positionName.get();
-//        }
-//
-//        public void setPositionName(String pName) {
-//            positionName.set(pName);
-//        }
-//
-//    }
 
-
-
-
+    private BasicSettingController controller = new BasicSettingController();
 
 
     public void start(Stage stage) {
         try {
+
+            final TableView<Position> table = new TableView<>();
+            final ObservableList<Position> data =
+                    FXCollections.observableArrayList();
+            final HBox hb = new HBox();
 
             GridPane grid = new GridPane();
             grid.setAlignment(Pos.CENTER);
@@ -117,7 +47,6 @@ public class BasicSettingView extends View{
                         final VBox vbox = new VBox();
             vbox.setSpacing(5);
             vbox.setPadding(new Insets(10, 0, 0, 10));
-//            vbox.getChildren().addAll(grid);
 
             grid.setPadding(new Insets(25, 25, 25, 25));
             Scene scene = new Scene(grid,1184, 775);
@@ -165,8 +94,7 @@ public class BasicSettingView extends View{
             TableColumn<Position, String> positionNameCol = new TableColumn<>("Position name");
             positionNameCol.setMinWidth(400);
             positionNameCol.setCellValueFactory(
-            new PropertyValueFactory<>("name"));
-
+                    new PropertyValueFactory<>("name"));
 
 
             table.setItems(data);
@@ -176,13 +104,14 @@ public class BasicSettingView extends View{
             addPositionName.setPromptText("Position name");
             addPositionName.setMaxWidth(positionNameCol.getPrefWidth());
 
+
+            // add bottom
             final Button addButton = new Button("Add");
             addButton.setOnAction((ActionEvent e) -> {
                 data.add(new Position(
                         addPositionName.getText()));
                 addPositionName.clear();
             });
-
 
 
             // delete bottom
@@ -206,20 +135,14 @@ public class BasicSettingView extends View{
                 }
             });
 
-
-
-
-
-
+            table.getColumns().addAll(deleteCol);
 
             hb.getChildren().addAll(addPositionName, addButton);
             hb.setSpacing(3);
 
-
-
-//            ((Group) scene.getRoot()).getChildren().addAll(vbox);
             grid.add(vbox, 1,6);
             vbox.getChildren().addAll(label, table, hb);
+
 
             // create start button
             Button btnStart = new Button("Start");
@@ -234,22 +157,13 @@ public class BasicSettingView extends View{
 
 
 
-//            btnStart.setOnAction(new EventHandler<ActionEvent>() {
-//                @Override
-//                public void handle(ActionEvent event) {//implements the method that will be called
-//                    //before start process clean previous messages
-//                    loginMessage.setText("");
-//                    //call meethod login on controller and check if login is true or false
-//                    if(controller.login(username.getText(), password.getText())){
-//                        System.out.println("Login sucessfull!");
-//                    }else{
-//                        //Login false, set message on text component
-//                        loginMessage.setText("Invalid email/password.");
-//                        //Set message color to red
-//                        loginMessage.setFill(Color.RED);
-//                    }
-//                }
-//            });
+            btnStart.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {//implements the method that will be called
+                    controller.sevePosition();
+                }
+
+            });
 
 
             stage.setScene(scene);
