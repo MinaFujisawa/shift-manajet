@@ -1,7 +1,6 @@
 package view;
 
 import java.net.URL;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -13,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Schedule;
+import model.Team;
 
 public class ManagerScheduleView extends View{
 	
@@ -57,6 +57,12 @@ public class ManagerScheduleView extends View{
 			text = weekFormar.format(days.getTime()).toUpperCase() + " " + days.get(Calendar.DAY_OF_MONTH);
 			calendar.add(new Text(text), i++, 1);
 			days.add(Calendar.DAY_OF_MONTH, 1);
+		}
+		
+		Team team = new Team(controller.getLoggedUserAsManager());
+		for(int j=0; j<team.getEmployees().size(); j++){
+			text = team.getEmployees().get(j).getName();
+			calendar.add(new Text(text), 0, j+2);//starts from third line
 		}
 		
 		root.getChildren().add(calendar);

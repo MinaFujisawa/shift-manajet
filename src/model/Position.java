@@ -1,11 +1,32 @@
 package model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import application.DatabaseConnection;
+
 public class Position {
 
     private Long id;
     private String name;
 
-    public Long getId() {
+    public Position(){
+    	
+    }
+    
+    public Position(Long positionId) {
+    	try {
+    		ResultSet rs = DatabaseConnection.executeQuery("SELECT * from position WHERE id = "+positionId);
+    		if(rs.next()){
+				this.id = rs.getLong("id");
+				this.name = rs.getString("name");
+    		}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public Long getId() {
         return id;
     }
 
