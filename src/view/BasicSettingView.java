@@ -22,11 +22,13 @@ import javafx.stage.Stage;
 import model.Employee;
 import model.Position;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Random;
 
 import static com.sun.javafx.tools.resource.DeployResource.Type.data;
 
-public class BasicSettingView extends View{
+public class BasicSettingView extends View {
 
     private BasicSettingController controller = new BasicSettingController();
 
@@ -44,17 +46,17 @@ public class BasicSettingView extends View{
             grid.setHgap(10);
             grid.setVgap(10);
 
-                        final VBox vbox = new VBox();
+            final VBox vbox = new VBox();
             vbox.setSpacing(5);
             vbox.setPadding(new Insets(10, 0, 0, 10));
 
             grid.setPadding(new Insets(25, 25, 25, 25));
-            Scene scene = new Scene(grid,1184, 775);
+            Scene scene = new Scene(grid, 1184, 775);
 
 
             // create title field
             Text title = new Text("BASIC SETTING");
-            title.setFont(new Font("Arial",30));
+            title.setFont(new Font("Arial", 30));
             grid.add(title, 1, 1);
 
 
@@ -84,7 +86,6 @@ public class BasicSettingView extends View{
             grid.add(rb3, 3, 3);
 
 
-
             // Shift positions
             final Label label = new Label("Create shift position");
             label.setFont(new Font("Arial", 20));
@@ -108,11 +109,10 @@ public class BasicSettingView extends View{
             // add bottom
             final Button addButton = new Button("Add");
             addButton.setOnAction((ActionEvent e) -> {
-                data.add(new Position(
-                        addPositionName.getText()));
-                addPositionName.clear();
+//                data.add(new Position(
+//                        addPositionName.getText()));
+//                addPositionName.clear();
             });
-
 
             // delete bottom
             TableColumn<Position, Position> deleteCol = new TableColumn<>("Delete");
@@ -140,7 +140,7 @@ public class BasicSettingView extends View{
             hb.getChildren().addAll(addPositionName, addButton);
             hb.setSpacing(3);
 
-            grid.add(vbox, 1,6);
+            grid.add(vbox, 1, 6);
             vbox.getChildren().addAll(label, table, hb);
 
 
@@ -155,22 +155,22 @@ public class BasicSettingView extends View{
             grid.add(hbBtn, 1, 7);
 
 
-
-
             btnStart.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {//implements the method that will be called
-                    controller.sevePosition();
+                    CreateShiftSetStartDayView startDay = new CreateShiftSetStartDayView();
+                    try {
+                        startDay.start(stage);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-
             });
-
-
             stage.setScene(scene);
             stage.show();
 
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
