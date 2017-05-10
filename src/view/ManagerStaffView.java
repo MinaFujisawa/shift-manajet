@@ -105,10 +105,14 @@ public class ManagerStaffView extends View {
                                     Text test = new Text("Test");
                                     addedName.setText(nameField.getText());
                                     Object position = cb.getSelectionModel().getSelectedItem();
+                                    Text id = new Text();
+                                    id.setText(controller.getSaltString());
+                                    Text password = new Text();
+                                    password.setText(controller.getSaltString());
 
                                     //SEEMS CANNOT ADD TO GRID FROM HERE....
                                     grid.add(test, 0, 3, 1, 1);
-                                    addPerson(addedName, grid, index);
+                                    addPerson(addedName, id, password, grid, index);
                                     winStage.close();
                                 } catch (Exception e) {
                                     e.printStackTrace();
@@ -161,14 +165,10 @@ public class ManagerStaffView extends View {
     }
 
 
-    public void addPerson(Text name, GridPane grid, int index) {
-        Text id = new Text();
-        id.setText(controller.getSaltString());
-        Text password = new Text();
-        password.setText(controller.getSaltString());
+    public void addPerson(Text name, Text id, Text pw, GridPane grid, int index) {
         grid.add(name, 0, index, 1, 1);
         grid.add(id, 1, index, 1, 1);
-        grid.add(password, 2, index, 1, 1);
+        grid.add(pw, 2, index, 1, 1);
         plusIndex();
     }
 
