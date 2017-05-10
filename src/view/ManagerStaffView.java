@@ -13,17 +13,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.*;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.geometry.Pos;
 import javafx.stage.StageStyle;
+import model.Position;
 
 import java.net.URL;
 
@@ -40,11 +38,18 @@ public class ManagerStaffView extends View {
             BorderPane pane = new BorderPane();
             VBox vboxContainer = new VBox();
             GridPane grid = new GridPane();
+            grid.getStyleClass().add("grid");
+            grid.setHgap(10);
+            grid.setVgap(10);
+            grid.getColumnConstraints().add(new ColumnConstraints(300)); // column 1
+            grid.getColumnConstraints().add(new ColumnConstraints(300)); // column 2
+            grid.getColumnConstraints().add(new ColumnConstraints(300)); // column 3
+
 
             //creates components
-            Text hName = new Text("NAME");
-            Text hID = new Text("ID");
-            Text hPassword = new Text("PASSWORD");
+            Label hName = new Label("NAME");
+            Label hID = new Label("ID");
+            Label hPassword = new Label("PASSWORD");
 
             Button addStaffBtn = new Button("Add Staff");
 
@@ -53,12 +58,6 @@ public class ManagerStaffView extends View {
             grid.add(hName, 0, 1, 1, 1);
             grid.add(hID, 1, 1, 1, 1);
             grid.add(hPassword, 2, 1, 1, 1);
-
-            // method test
-//            Text mina = new Text("Mina");
-//            Text fumin = new Text("Fumin");
-//            addPerson(mina, grid, index);
-//            addPerson(fumin, grid, index);
 
             //button
             addStaffBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -77,23 +76,33 @@ public class ManagerStaffView extends View {
                          * Contents in the modal window
                          ***************/
                         //creates root elements
-                        GridPane grid = new GridPane();
+                        GridPane gridModal = new GridPane();
+                        gridModal.setHgap(10);
+                        gridModal.setVgap(10);
+                        gridModal.getColumnConstraints().add(new ColumnConstraints(100)); // column 1
+                        gridModal.getColumnConstraints().add(new ColumnConstraints(100)); // column 2
 
                         //creates components
                         Text hName = new Text("NAME");
                         Text hPosi = new Text("POSITION");
                         Button addStaffBtn = new Button("Add Staff");
                         TextField nameField = new TextField();
-                        ChoiceBox cb = new ChoiceBox(FXCollections.observableArrayList(
-                                "First", "Second", "Third")
-                        );
+                        Position position = new Position();
+                        Long positionID = position.getId();
+
+                        ChoiceBox cb = new ChoiceBox(FXCollections.observableList(controller.getAllPositions()));
+                        System.out.println(controller.getAllPositions());
+
+
+                        //Styles
+                        gridModal.setMinWidth(500);
 
                         //table layout
-                        grid.add(hName, 0, 0, 1, 1);
-                        grid.add(nameField, 1, 0, 1, 1);
-                        grid.add(hPosi, 0, 1, 1, 1);
-                        grid.add(cb, 1, 1, 1, 1);
-                        grid.add(addStaffBtn, 0, 2, 3, 1);
+                        gridModal.add(hName, 0, 0, 1, 1);
+                        gridModal.add(nameField, 1, 0, 1, 1);
+                        gridModal.add(hPosi, 0, 1, 1, 1);
+                        gridModal.add(cb, 1, 1, 1, 1);
+                        gridModal.add(addStaffBtn, 0, 2, 3, 1);
 
                         addStaffBtn.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
@@ -104,15 +113,13 @@ public class ManagerStaffView extends View {
                                     Text addedName = new Text();
                                     Text test = new Text("Test");
                                     addedName.setText(nameField.getText());
-                                    Object position = cb.getSelectionModel().getSelectedItem();
                                     Text id = new Text();
                                     id.setText(controller.getSaltString());
                                     Text password = new Text();
                                     password.setText(controller.getSaltString());
 
-                                    //SEEMS CANNOT ADD TO GRID FROM HERE....
-                                    grid.add(test, 0, 3, 1, 1);
                                     addPerson(addedName, id, password, grid, index);
+                                    controller.saveEmployeeInTeam(addedName.getText(), (Position)cb.getValue());
                                     winStage.close();
                                 } catch (Exception e) {
                                     e.printStackTrace();
@@ -120,7 +127,7 @@ public class ManagerStaffView extends View {
                             }
                         });
 
-                        Scene winScene = new Scene(grid, 400, 400);
+                        Scene winScene = new Scene(gridModal, 400, 400);
                         winStage.setScene(winScene);
                         winStage.show();
 
@@ -138,7 +145,7 @@ public class ManagerStaffView extends View {
 
             // sets alignment
             vboxContainer.setAlignment(Pos.TOP_CENTER);
-            grid.setAlignment(Pos.CENTER);
+            grid.setAlignment(Pos.TOP_CENTER);
 
             // add navi
             addNavigationBar(vboxContainer);
@@ -152,6 +159,8 @@ public class ManagerStaffView extends View {
 
             //Import general css file
             scene.getStylesheets().add(new URL("file:resources/css/application.css").toExternalForm());
+
+            pane.setId("staff");
 
             //Add scene to the stage
             stage.setScene(scene);

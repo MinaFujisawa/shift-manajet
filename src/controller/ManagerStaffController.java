@@ -1,5 +1,8 @@
 package controller;
 
+import model.Employee;
+import model.Position;
+import model.Team;
 import view.CreateShiftSetStartDayView;
 
 import java.math.BigInteger;
@@ -12,16 +15,6 @@ import java.util.Random;
 
 public class ManagerStaffController extends Controller {
 
-    //private SecureRandom random = new SecureRandom();
-
-
-    //        public String generateRam() {
-//            String random = "";
-//            for (int i = 0; i < 8; i++) {
-//                random += RandomStringUtils.randomAlphanumeric(8);
-//            }
-//            return random;
-//        }
     public String getSaltString() {
         String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder salt = new StringBuilder();
@@ -33,6 +26,12 @@ public class ManagerStaffController extends Controller {
         String saltStr = salt.toString();
         return saltStr;
 
+    }
+
+    public void saveEmployeeInTeam(String employeeName, Position position){
+        Employee employee = new Employee(employeeName);
+        Team team = new Team(getLoggedUserAsManager());
+        employee.saveEmployeePosition(position, team);
     }
 }
 
