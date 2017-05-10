@@ -3,6 +3,8 @@
  */
 package view;
 import controller.CreateShiftSetStartDayController;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -10,10 +12,12 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.geometry.Pos;
 import java.net.URL;
+import java.sql.Date;
 import java.time.LocalDate;
 
 
@@ -37,7 +41,22 @@ public class CreateShiftSetStartDayView extends View {
             //sets default date
             checkInDatePicker.setValue(controller.currentDate());
 
-            Button btn = new Button("START CREATING THE SHIFT");
+
+            Button submitBtn = new Button("START CREATING THE SHIFT");
+            submitBtn.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    ManagerScheduleView mv = new ManagerScheduleView();
+
+                    LocalDate startDate = checkInDatePicker.getValue();
+                    mv.setStartDate(Date.valueOf(startDate));
+                    try {
+                        mv.start(stage);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
 
             //sets styles
             heading.setFont(Font.font(22));
@@ -47,7 +66,7 @@ public class CreateShiftSetStartDayView extends View {
 
             // adds components to the vboxes
             addNavigationBar(vboxContainer);
-            vboxContents.getChildren().addAll(heading, subHeading, checkInDatePicker, btn);
+            vboxContents.getChildren().addAll(heading, subHeading, checkInDatePicker, submitBtn);
 
             // sets alignment
             vboxContainer.setAlignment(Pos.TOP_CENTER);
@@ -57,9 +76,7 @@ public class CreateShiftSetStartDayView extends View {
             pane.setTop(vboxContainer);
             pane.setCenter(vboxContents);
 
-            //
-            LocalDate startDate = checkInDatePicker.getValue();
-            System.out.println(startDate);
+
 
             // creates scene
             Scene scene = new Scene(pane, 1280, 800);
@@ -69,11 +86,6 @@ public class CreateShiftSetStartDayView extends View {
 
             pane.setId("set-start-date");
 
-
-//            @Override
-//            public void handle (ActionEvent event){
-//                getStartDate(checkInDatePicker);
-//            }
 
 
             //Add scene to the stage
