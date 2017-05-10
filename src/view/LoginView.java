@@ -86,7 +86,7 @@ public class LoginView extends View{
 				public void handle(ActionEvent event) {//implements the method that will be called
 					//before start process clean previous messages
 					loginMessage.setText("");
-					//call meethod login on controller and check if login is true or false
+					//call method login on controller and check if login is true or false
 					if(controller.login(username.getText(), password.getText())){
 						System.out.println("Login sucessfull!");
 					}else{

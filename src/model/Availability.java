@@ -1,6 +1,10 @@
 package model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Time;
+
+import application.DatabaseConnection;
 
 public class Availability {
 	
@@ -9,6 +13,26 @@ public class Availability {
 	private Integer weekDay;
 	private Time startTime;
 	private Time endTime;
+	
+	public Availability(){
+		
+	}
+	
+	public Availability(Long availabilityId){
+		ResultSet rs;		
+		try {
+			rs = DatabaseConnection.executeQuery("SELECT * from availability WHERE id="+availabilityId);
+			if(rs.next()){
+				this.id = rs.getLong("id");
+				this.employee = new Employee(rs.getLong("userId"));
+				this.weekDay = rs.getInt("weekDay");
+				this.startTime = rs.getTime("startTime"); 
+				this.endTime = rs.getTime("endTime");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public Long getId() {
 		return id;

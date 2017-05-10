@@ -3,18 +3,25 @@ package view;
 import java.net.URL;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import controller.ManagerScheduleController;
 import javafx.geometry.HPos;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.Availability;
+import model.Position;
 import model.Schedule;
+import model.Shift;
 import model.Team;
 
 public class ManagerScheduleView extends View{
@@ -37,16 +44,43 @@ public class ManagerScheduleView extends View{
 		calendar.setId("schedule-calendar");
 		
 		//set columns formating
-		for(int i=0; i<8; i++){
-			ColumnConstraints col = new ColumnConstraints();
+		//User image column
+		ColumnConstraints col = new ColumnConstraints();
+		col.setPercentWidth(6);
+		col.halignmentProperty().set(HPos.CENTER);
+		calendar.getColumnConstraints().add(col);
+		
+		//Employee name column
+		col = new ColumnConstraints();
+		col.setPercentWidth(10);
+		col.halignmentProperty().set(HPos.CENTER);
+		calendar.getColumnConstraints().add(col);
+		
+		//Week days column
+		for(int i=0; i<7; i++){
+			col = new ColumnConstraints();
 			col.setPercentWidth(12);
 			col.halignmentProperty().set(HPos.CENTER);
 			calendar.getColumnConstraints().add(col);
 		}
 		
 		Text staffColumn = new Text("STAFF");
+		GridPane.setColumnSpan(staffColumn, 2);
 		calendar.add(staffColumn, 0, 1);
 		
+		
+		String text;
+		Image image = new Image("file:resources/images/icon_user.png");
+		
+		//Column team on the left
+		Team team = new Team(controller.getLoggedUserAsManager());
+		ArrayList<Availability> availabilities;
+		for(int j=0; j<team.getEmployees().size(); j++){
+			//fill staff name
+			text = team.getEmployees().get(j).getName();
+			calendar.add(new ImageView(image), 0, j+2);
+			calendar.add(new Text(text), 1, j+2);//starts from third line					
+		}
 		
 		Schedule schedule = controller.getNewSchedule();
 		
@@ -57,19 +91,24 @@ public class ManagerScheduleView extends View{
 		
 		SimpleDateFormat weekFormar = new SimpleDateFormat("EEE");
 		
-		int i=1;
-		String text = new String();
+		int i=2;		
 		while(days.getTimeInMillis() < end.getTimeInMillis()){
 			text = weekFormar.format(days.getTime()).toUpperCase() + " " + days.get(Calendar.DAY_OF_MONTH);
 			calendar.add(new Text(text), i++, 1);
 			days.add(Calendar.DAY_OF_MONTH, 1);
+			
+			//check if employee has exception for that day
+			
+			//if no exception get availability in that day if exists
+			for(int j=0; j<team.getEmployees().size(); j++){
+				//fill availability
+				availabilities = team.getEmployees().get(j).getAvailabilities();
+				for(int m=0; m<availabilities.size(); m++){
+					
+				}
+			}
 		}
 		
-		Team team = new Team(controller.getLoggedUserAsManager());
-		for(int j=0; j<team.getEmployees().size(); j++){
-			text = team.getEmployees().get(j).getName();
-			calendar.add(new Text(text), 0, j+2);//starts from third line
-		}
 		
 		root.getChildren().add(calendar);
 		stage.setScene(scene);
@@ -80,7 +119,7 @@ public class ManagerScheduleView extends View{
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(Date startDate) {		
 		this.startDate = startDate;
 	}
 	

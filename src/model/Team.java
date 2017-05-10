@@ -41,19 +41,16 @@ public class Team {
 	
 	public Team(Manager manager){
 		try {
-			ResultSet rs = DatabaseConnection.executeQuery("SELECT id from team WHERE managerUserId = "+manager.getId());
+			ResultSet rs = DatabaseConnection.executeQuery("SELECT * from team WHERE managerUserId = "+manager.getId());
 			if(rs.next()){
-				rs = DatabaseConnection.executeQuery("SELECT * from team WHERE id = "+rs.getLong("id"));
-				if(rs.next()){
-					this.id = rs.getLong("id");
-					this.name = rs.getString("name");
-					this.scheduleType = SchedulePeriod.getEnum(rs.getInt("periodType"));
-					this.manager = new Manager(rs.getLong("managerUserId"));
-					this.employees = new ArrayList<Employee>();
-					rs = DatabaseConnection.executeQuery("SELECT userId, positionId from userTeam WHERE id = "+rs.getLong("id"));
-					while (rs.next()) {
-						this.employees.add(new Employee(rs.getLong("userId"), rs.getLong("positionId")));
-					}
+				this.id = rs.getLong("id");
+				this.name = rs.getString("name");
+				this.scheduleType = SchedulePeriod.getEnum(rs.getInt("periodType"));
+				this.manager = new Manager(rs.getLong("managerUserId"));
+				this.employees = new ArrayList<Employee>();
+				rs = DatabaseConnection.executeQuery("SELECT userId, positionId from userTeam WHERE teamId = "+this.id);
+				while (rs.next()) {
+					this.employees.add(new Employee(rs.getLong("userId"), rs.getLong("positionId")));
 				}
 			}
 		} catch (SQLException e) {

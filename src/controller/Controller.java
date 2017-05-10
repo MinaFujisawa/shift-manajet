@@ -1,6 +1,9 @@
 package controller;
 
+import java.util.ArrayList;
+
 import model.Manager;
+import model.Position;
 import model.User;
 
 public class Controller {
@@ -23,6 +26,10 @@ public class Controller {
 	
 	public Manager getLoggedUserAsManager(){
 		return new Manager(getLoggedUser());
-	}
+	}	
+	
+	 public ArrayList<Position> getAllPositions(){
+		 return new Position().getAllPositions();
+	 }
 	
 }

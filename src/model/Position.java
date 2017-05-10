@@ -2,6 +2,7 @@ package model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import application.DatabaseConnection;
 
@@ -55,5 +56,22 @@ public class Position {
     		e.printStackTrace();
     	}
     	
+    }
+    
+    public ArrayList<Position> getAllPositions(){
+    	ArrayList<Position> positionsList = new ArrayList<Position>();
+    	try {
+    		Position pos;
+    		ResultSet rs = DatabaseConnection.executeQuery("SELECT * FROM position");
+    		while(rs.next()){
+    			pos = new Position();
+    			pos.setId(rs.getLong("id"));
+    			pos.setName(rs.getString("name"));
+    			positionsList.add(pos);
+    		}
+    	} catch (SQLException e) {
+    		e.printStackTrace();
+    	}
+    	return positionsList;
     }
 }
