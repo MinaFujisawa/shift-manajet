@@ -63,5 +63,14 @@ public abstract class DatabaseConnection {
 		
 		return null;
 	}
+	
+	public static int executeUpdate(String query){
+		try {
+			return getConnection().createStatement().executeUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
 
 }

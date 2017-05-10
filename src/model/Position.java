@@ -44,18 +44,8 @@ public class Position {
     }
     
     public void savePostion(){
-    	
-    	try {
-    		ResultSet rs = DatabaseConnection.executeQuery("INSERT INTO position VALUES (NULL,"
-    				+ this.getName());
-				rs.insertRow();
-    		if(rs.next()){
-    			this.id = rs.getLong("id");
-    		}
-    	} catch (SQLException e) {
-    		e.printStackTrace();
-    	}
-    	
+		 DatabaseConnection.executeUpdate("INSERT INTO position VALUES (NULL,"
+				+ this.getName());
     }
     
     public ArrayList<Position> getAllPositions(){
