@@ -1,5 +1,12 @@
 package view;
 
+//import java.awt.event.MouseEvent;
+import java.net.URL;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 //import controller.LoginController;
 //import javafx.event.ActionEvent;
 //import javafx.event.EventHandler;
@@ -21,18 +28,19 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 //import model.Shift;
-
-//import java.awt.event.MouseEvent;
-import java.net.URL;
 //import java.sql.Date;
 //import java.sql.Time;
 
 /**
  * Created by marusiaochoaramirez on 4/5/17.
  */
-public class CreateShiftWindow extends View {
+public class CreateShiftView extends View {
 
     //private LoginController controller = new LoginController();
+	
+	private String date;
+	private Time suggestedStartTime;
+	private Time suggestedEndTime;
 
     @Override
 
@@ -59,18 +67,18 @@ public class CreateShiftWindow extends View {
             line1.setHalignment(HPos.CENTER);
             GridPane.setColumnSpan(line1, GridPane.REMAINING);
 
-            Text date = new Text("MON. 7");
-
+            Text textDate = new Text(date);
 
             Text fromText = new Text("FROM");
             Text toText = new Text("TO");
+            SimpleDateFormat format = new SimpleDateFormat("HH:mm");
 
-            TextField fromHour = new TextField("10:00");
+            TextField fromHour = new TextField(format.format(suggestedStartTime));
             fromHour.setMaxSize(50, 10);
             fromHour.setEditable(true);
 
 
-            TextField toHour = new TextField("12:00");
+            TextField toHour = new TextField(format.format(suggestedEndTime));
             toHour.setMaxSize(50, 10);
             toHour.setEditable(true);
 
@@ -98,10 +106,9 @@ public class CreateShiftWindow extends View {
 
             Button btnSave = new Button ("Save");
             btnSave.setOnAction (new EventHandler<ActionEvent>() {
-
                 @Override
                 public void handle(ActionEvent event) {
-
+                	stage.close();
                 }
             });
 
@@ -115,7 +122,7 @@ public class CreateShiftWindow extends View {
             root.add(userView,0,0);
             root.add(imageLabel,0,0);
             root.add(line1, 0, 1);
-            root.add(date, 0,2);
+            root.add(textDate, 0,2);
             root.add(fromHour, 0,5);
             root.add(fromText, 0, 4);
             root.add(toHour, 1,5);
@@ -132,6 +139,30 @@ public class CreateShiftWindow extends View {
         }
     }
 
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public Time getSuggestedStartTime() {
+		return suggestedStartTime;
+	}
+
+	public void setSuggestedStartTime(Time suggestedStartTime) {
+		this.suggestedStartTime = suggestedStartTime;
+	}
+
+	public Time getSuggestedEndTime() {
+		return suggestedEndTime;
+	}
+
+	public void setSuggestedEndTime(Time suggestedEndTime) {
+		this.suggestedEndTime = suggestedEndTime;
+	}
+    
 }
 
 

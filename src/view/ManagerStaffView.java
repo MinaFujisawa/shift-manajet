@@ -220,8 +220,6 @@ public class ManagerStaffView extends View {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        {
-        }
     }
     
     

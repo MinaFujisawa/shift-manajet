@@ -2,18 +2,22 @@ package view;
 
 import java.net.URL;
 import java.sql.Date;
+import java.sql.Time;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import controller.ManagerScheduleController;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -24,7 +28,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import model.Availability;
 import model.AvailabilityException;
 import model.Schedule;
@@ -34,6 +40,8 @@ import model.Team;
 public class ManagerScheduleView extends View{
 	
 	private ManagerScheduleController controller = new ManagerScheduleController();
+	
+	private SimpleDateFormat weekFormarter = new SimpleDateFormat("EEE");
 	
 	private Date startDate;
 
@@ -99,11 +107,17 @@ public class ManagerScheduleView extends View{
 		GregorianCalendar end = new GregorianCalendar();
 		end.setTime(schedule.getEndDate());
 		
-		SimpleDateFormat weekFormar = new SimpleDateFormat("EEE");
+		
+		Stage winStage = new Stage();
+        winStage.initModality(Modality.APPLICATION_MODAL);
+//        winStage.initStyle(StageStyle.UNDECORATED);
+        winStage.setTitle("Shift");
+		
+		
 		
 		int i=2;		
 		while(days.getTimeInMillis() < end.getTimeInMillis()){
-			text = weekFormar.format(days.getTime()).toUpperCase() + " " + days.get(Calendar.DAY_OF_MONTH);
+			text = weekFormarter.format(days.getTime()).toUpperCase() + " " + days.get(Calendar.DAY_OF_MONTH);
 			calendar.add(new Text(text), i, 1);
 			days.add(Calendar.DAY_OF_MONTH, 1);
 			hasException = false;
@@ -134,7 +148,7 @@ public class ManagerScheduleView extends View{
 							}else{
 								text = new String();
 							}
-							calendar.add(createTextWithClickEvent(text, stage), i, j+2);
+							calendar.add(createTextWithClickEvent(text, winStage, calendar), i, j+2);
 							break;
 						}
 					}
@@ -147,7 +161,7 @@ public class ManagerScheduleView extends View{
 							if(availabilities.get(m).getWeekDay() == days.get(Calendar.DAY_OF_WEEK)){
 								text = "Available:\n"+availabilities.get(m).getStartTime().toString().substring(0,5) 
 										+ " - " + availabilities.get(m).getEndTime().toString().substring(0,5);
-								calendar.add(createTextWithClickEvent(text, stage), i, j+2);
+								calendar.add(createTextWithClickEvent(text, winStage, calendar), i, j+2);
 								break;
 							}
 						}
@@ -179,17 +193,52 @@ public class ManagerScheduleView extends View{
 		stage.show();
 	}
 	
-	private Text createTextWithClickEvent(String text, Stage stage){
+	private Text createTextWithClickEvent(String text, Stage stage, GridPane grid){
 		Text t = new Text(text);
 		t.setCursor(Cursor.HAND);
 		t.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-		    @Override
-		    public void handle(MouseEvent event) {
-		         CreateShiftWindow shiftView = new CreateShiftWindow();
-		         shiftView.start(stage);
-		    }
+			@Override
+			public void handle(MouseEvent event) {
+				CreateShiftView shiftView = new CreateShiftView();
+				Text source = ((Text) event.getSource());
+				String[] hours = source.getText().split("\n")[1].split("-");
+
+				// start time
+
+				GregorianCalendar selectedDateTime = new GregorianCalendar();
+				selectedDateTime.set(Calendar.HOUR, Integer.valueOf(hours[0].split(":")[0].replaceAll(" ", "")));
+				selectedDateTime.set(Calendar.MINUTE, Integer.valueOf(hours[0].split(":")[1].replaceAll(" ", "")));
+				shiftView.setSuggestedStartTime(new Time(selectedDateTime.getTimeInMillis()));
+
+				// end time
+				selectedDateTime = new GregorianCalendar();
+				selectedDateTime.set(Calendar.HOUR, Integer.valueOf(hours[1].split(":")[0].replaceAll(" ", "")));
+				selectedDateTime.set(Calendar.MINUTE, Integer.valueOf(hours[1].split(":")[1].replaceAll(" ", "")));
+				shiftView.setSuggestedEndTime(new Time(selectedDateTime.getTimeInMillis()));
+
+				source = (Text) getNodeByRowColumnIndex(GridPane.getColumnIndex(source), 1, grid);
+				shiftView.setDate(source.getText());
+
+				shiftView.start(stage);
+			}
+
+			
 		});
 		return t;
+	}
+	
+	public Node getNodeByRowColumnIndex (int column, int row, GridPane gridPane) {
+	    Node resultNode = null;
+	    ObservableList<Node> childrens = gridPane.getChildren();
+
+	    for (Node node : childrens) {
+	        if(GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column) {
+	            resultNode = node;
+	            break;
+	        }
+	    }
+
+	    return resultNode;
 	}
 
 	public Date getStartDate() {
