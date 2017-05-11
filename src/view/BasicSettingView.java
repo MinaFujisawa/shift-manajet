@@ -1,17 +1,13 @@
 package view;
 
 import controller.BasicSettingController;
-import controller.LoginController;
-import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -24,17 +20,11 @@ import model.Employee;
 import model.Position;
 
 import java.net.URL;
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.Random;
-
-
-import static com.sun.javafx.tools.resource.DeployResource.Type.data;
 
 public class BasicSettingView extends View {
 
     private BasicSettingController controller = new BasicSettingController();
-
+    int index = 1;
 
     public void start(Stage stage) {
         try {
@@ -43,14 +33,11 @@ public class BasicSettingView extends View {
             VBox vboxContainer = new VBox();
             VBox vboxContents = new VBox();
 
-
-
             /*
             * Title
             */
             Label title = new Label("BASIC SETTING");
-            title.setFont(new Font(30));
-
+            title.setFont(new Font(26));
 
             /*
             * Form
@@ -61,7 +48,7 @@ public class BasicSettingView extends View {
             grid.setAlignment(Pos.CENTER);
             grid.setHgap(10);
             grid.setVgap(10);
-            grid.setPadding(new Insets(80, 0, 50, 0));
+            grid.setPadding(new Insets(50, 0, 50, 0));
             TextField companyName = new TextField();
             Label labelCompanyName = new Label();
             labelCompanyName.setText("Company name:");
@@ -93,58 +80,32 @@ public class BasicSettingView extends View {
             */
 
             Label positionTitle = new Label("Create shift position");
-            positionTitle.setFont(new Font(20));
+            positionTitle.setFont(new Font(26));
 
-            TableView<String> table = new TableView<>();
-            ObservableList<String> data = FXCollections.observableArrayList();
-
-            table.setEditable(true);
-
-            TableColumn<String, String> positionNameCol = new TableColumn<>("Position name");
-            positionNameCol.setMinWidth(400);
-            positionNameCol.setCellValueFactory(
-                    new PropertyValueFactory<>("name"));
-
-
-            table.setItems(data);
-            table.getColumns().addAll(positionNameCol);
 
             TextField addPositionName = new TextField();
-            addPositionName.setPromptText("Position name");
-            addPositionName.setMaxWidth(positionNameCol.getPrefWidth());
+            addPositionName.setPromptText("e.g. Waiter");
 
-
-            // add bottom
+            GridPane posGrid = new GridPane();
+            posGrid.setAlignment(Pos.CENTER);
+            posGrid.setHgap(10);
+            posGrid.setVgap(10);
+            posGrid.setPadding(new Insets(50, 0, 50, 0));
             Button addButton = new Button("Add");
-            final Long posID;
-            addButton.setOnAction((ActionEvent e) -> {
-                data.add(addPositionName.getText());
-                addPositionName.clear();
+
+
+            posGrid.add(addPositionName,0,0,4,1);
+            posGrid.add(addButton,5,0,1,1);
+
+            addButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    Text posName = new Text();
+                    posName.setText(addPositionName.getText());
+                    addPos(posName,posGrid,index);
+                }
             });
 
-
-            // delete bottom
-            TableColumn<String, String> deleteCol = new TableColumn<>("Delete");
-            deleteCol.setMinWidth(100);
-            deleteCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-            deleteCol.setCellFactory(param -> new TableCell<String, String>() {
-                private final Button deleteButton = new Button("delete");
-
-//                @Override
-//                protected void updateItem(Position position, boolean empty) {
-//                    super.updateItem(position, empty);
-//
-//                    if (position == null) {
-//                        setGraphic(null);
-//                        return;
-//                    }
-//
-//                    setGraphic(deleteButton);
-//                    //deleteButton.setOnAction(event -> data.remove(position));
-//                }
-            });
-
-            table.getColumns().addAll(deleteCol);
 
 
             /*
@@ -155,10 +116,10 @@ public class BasicSettingView extends View {
             btnStart.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    ManagerScheduleView mv = new ManagerScheduleView();
+                    CreateShiftSetStartDayView startDay = new CreateShiftSetStartDayView();
 
                     try {
-                        mv.start(stage);
+                        startDay.start(stage);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -168,7 +129,7 @@ public class BasicSettingView extends View {
             //sets styles
 
             // adds components to the vboxes
-            vboxContents.getChildren().addAll(title, grid, positionTitle, table, addPositionName, addButton, btnStart);
+            vboxContents.getChildren().addAll(title, grid, positionTitle, posGrid, btnStart);
 
             // sets alignment
             vboxContainer.setAlignment(Pos.TOP_CENTER);
@@ -185,7 +146,7 @@ public class BasicSettingView extends View {
             //Import general css file
             scene.getStylesheets().add(new URL("file:resources/css/application.css").toExternalForm());
 
-            //pane.setId("set-start-date");
+            pane.setId("Basic-setting");
 
 
             //Add scene to the stage
@@ -197,5 +158,17 @@ public class BasicSettingView extends View {
         }
         {
         }
+    }
+
+    public void addPos(Text name, GridPane grid, int index) {
+        Button deleteButton = new Button("X");
+        deleteButton.getStyleClass().add("deleteButton");
+        grid.add(name, 0, index, 5, 1);
+        grid.add(deleteButton, 6, index, 1, 1);
+        plusIndex();
+    }
+
+    public int plusIndex() {
+        return index++;
     }
 }
