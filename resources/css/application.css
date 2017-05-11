@@ -33,6 +33,12 @@
 	-fx-padding: 15 20;
 	-fx-background-radius: 5;
 }
+.subButton {
+	-fx-background-color: transparent;
+    -fx-text-fill: #00a99d;
+    	-fx-padding: 15 10;
+
+}
 
 .button:hover {
     -fx-cursor: hand;
