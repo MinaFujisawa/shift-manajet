@@ -22,9 +22,18 @@
 .label{
 	-fx-text-fill: #636363;
 }
+.text{
+	-fx-text-fill: #636363;
+}
 
 .text-field{
-	
+    -fx-padding : 10;
+    -fx-border : white;
+    -fx-background-color : white;
+}
+.text-field:focus{
+    -fx-border : white;
+    -fx-background-color : white;
 }
 .button{
 	-fx-background-color: #00a99d;
@@ -36,12 +45,16 @@
 .subButton {
 	-fx-background-color: transparent;
     -fx-text-fill: #00a99d;
-    	-fx-padding: 15 10;
-
+    -fx-padding: 15 10;
 }
 
 .button:hover {
     -fx-cursor: hand;
+}
+
+.choice-box{
+    -fx-background-color: white;
+    -fx-padding : 5;
 }
 
 #menu-nav-bar{
@@ -118,7 +131,6 @@ CreateShiftSetStartDayView
     	-fx-background-radius: 5;
 }
 
-
 #Basic-setting .deleteButton {
     -fx-background-color: transparent;
     	-fx-font-size: 10px;
@@ -126,3 +138,12 @@ CreateShiftSetStartDayView
     	-fx-padding: 10;
     	-fx-background-radius: 5;
 }
+
+#staff .addStaffBtn{
+    -fx-background-color: transparent;
+    -fx-text-fill: #00a99d;
+    -fx-padding: 0;
+    -fx-font-weight: bold;
+
+}
+
