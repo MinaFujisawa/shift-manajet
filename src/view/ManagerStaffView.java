@@ -3,29 +3,34 @@
  */
 package view;
 
-import com.sun.org.apache.xpath.internal.operations.String;
+import java.net.URL;
+
 import controller.ManagerStaffController;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.VPos;
-import javafx.scene.Node;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.geometry.Pos;
 import javafx.stage.StageStyle;
+import model.Employee;
 import model.Position;
-
-import java.net.URL;
+import model.Team;
 
 
 public class ManagerStaffView extends View {
@@ -48,7 +53,7 @@ public class ManagerStaffView extends View {
             grid.getColumnConstraints().add(new ColumnConstraints(250)); // column 3
             grid.setPadding(new Insets(50, 0, 0, 0));
 
-
+            initializeGridData(grid);
 
             //creates components
             Label hName = new Label("NAME");
@@ -124,7 +129,7 @@ public class ManagerStaffView extends View {
                                     Text password = new Text();
                                     password.setText(controller.getSaltString());
 
-                                    addPerson(addedName, id, password, grid, index);
+                                    addPerson(addedName, id, password, grid);
                                     controller.saveEmployeeInTeam(addedName.getText(), (Position)cb.getValue());
                                     winStage.close();
                                 } catch (Exception e) {
@@ -218,16 +223,25 @@ public class ManagerStaffView extends View {
         {
         }
     }
+    
+    
+    private void initializeGridData(GridPane grid){
+    	Team team = new Team(controller.getLoggedUserAsManager());
+    	for (Employee emp : team.getEmployees()) {
+			addPerson(new Text(emp.getName()), new Text(emp.getEmail()), new Text(emp.getPassword()), grid);
+		}
+    }
+   
 
 
-    public void addPerson(Text name, Text id, Text pw, GridPane grid, int index) {
+    private void addPerson(Text name, Text id, Text pw, GridPane grid) {
         grid.add(name, 0, index, 1, 1);
         grid.add(id, 1, index, 1, 1);
         grid.add(pw, 2, index, 1, 1);
         plusIndex();
     }
 
-    public int plusIndex() {
+    private int plusIndex() {
         return index++;
     }
 
