@@ -2,6 +2,8 @@ package view;
 
 import controller.Controller;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -9,10 +11,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import javafx.stage.Stage;
 
 public abstract class View extends Application{
 	
-	public void addNavigationBar(Pane root){
+	public void addNavigationBar(Pane root, Stage stage){
 		
 		Button logoMenu = new Button();
 		Image logoImage = new Image("file:resources/images/logo.png");
@@ -28,9 +31,25 @@ public abstract class View extends Application{
 		Button createShift = new Button("CREATE SHIFT");
 		createShift.setAlignment(Pos.CENTER);
 		createShift.setMinHeight(50);
+		createShift.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				CreateShiftSetStartDayView startDay = new CreateShiftSetStartDayView();
+                startDay.start(stage);
+			}
+			
+		});
 		
 		Button staff = new Button("STAFF");
 		staff.setMinHeight(50);
+		staff.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				ManagerStaffView staffView = new ManagerStaffView();
+				staffView.start(stage);
+			}
+		});
 		
 		Button user = new Button();
 		user.setGraphic(userView);

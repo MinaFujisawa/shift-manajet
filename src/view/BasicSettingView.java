@@ -117,8 +117,8 @@ public class BasicSettingView extends View {
                 @Override
                 public void handle(ActionEvent event) {
                     try {
-                    	CreateShiftSetStartDayView startDay = new CreateShiftSetStartDayView();
-                        startDay.start(stage);
+                    	ManagerHomeView managerHome = new ManagerHomeView();
+                    	managerHome.start(stage);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

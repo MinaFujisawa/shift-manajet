@@ -65,7 +65,7 @@ public class CreateShiftSetStartDayView extends View {
             VBox.setMargin(checkInDatePicker, new Insets(25, 0, 50, 0));
 
             // adds components to the vboxes
-            addNavigationBar(vboxContainer);
+            addNavigationBar(vboxContainer, stage);
             vboxContents.getChildren().addAll(heading, subHeading, checkInDatePicker, submitBtn);
 
             // sets alignment

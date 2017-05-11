@@ -156,7 +156,7 @@ public class Employee extends User{
 	}
 
 	public void saveEmployeePosition(Position pos, Team team){
-		DatabaseConnection.executeQuery("INSERT INTO userTeam VALUES ("
+		DatabaseConnection.executeUpdate("INSERT INTO userTeam VALUES ("
 				+ "NULL, "
 				+ this.getId() + ", "
 				+ team.getId() + ", "

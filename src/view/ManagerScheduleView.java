@@ -8,15 +8,20 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import controller.ManagerScheduleController;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -39,7 +44,7 @@ public class ManagerScheduleView extends View{
 		Scene scene = new Scene(root,800,600);
 		scene.getStylesheets().add(new URL("file:resources/css/application.css").toExternalForm());
 		
-		addNavigationBar(root);
+		addNavigationBar(root, stage);
 		
 		GridPane calendar = new GridPane();
 		calendar.minWidth(800);
@@ -152,8 +157,24 @@ public class ManagerScheduleView extends View{
 			i++;
 		}
 		
+		HBox hbox = new HBox();
+		Button btnBack = new Button("Back");
+		btnBack.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				ManagerHomeView managerHome = new ManagerHomeView();
+				managerHome.start(stage);
+			}
+			
+		});
+		hbox.getChildren().add(btnBack);
+		hbox.setPadding(new Insets(20,0,0,0));
+		hbox.setAlignment(Pos.BOTTOM_CENTER);
+		
 		
 		root.getChildren().add(calendar);
+		root.getChildren().add(hbox);
 		stage.setScene(scene);
 		stage.show();
 	}

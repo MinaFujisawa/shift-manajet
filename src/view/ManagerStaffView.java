@@ -193,7 +193,7 @@ public class ManagerStaffView extends View {
             grid.setAlignment(Pos.TOP_CENTER);
 
             // add navi
-            addNavigationBar(vboxContainer);
+            addNavigationBar(vboxContainer, stage);
 
             // sets components
             pane.setTop(vboxContainer);

@@ -35,7 +35,7 @@ public class ManagerHomeView extends View {
             dummyText.setFont(Font.font(22));
 
             // adds components to the vboxes
-            addNavigationBar(vboxContainer);
+            addNavigationBar(vboxContainer, stage);
             vboxContents.getChildren().addAll(dummyText);
 
             // sets alignment
