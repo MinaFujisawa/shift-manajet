@@ -60,6 +60,7 @@ public class Employee extends User{
 		try {
 			rs = DatabaseConnection.executeQuery("SELECT id from availability WHERE userId="+employee.getId());
 			while(rs.next()){
+				if(employee.availabilities == null) employee.availabilities = new ArrayList<Availability>();
 				Availability aval = new Availability(rs.getLong("id"));
 				aval.setEmployee(employee);
 				employee.availabilities.add(aval);

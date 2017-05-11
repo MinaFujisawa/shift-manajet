@@ -94,7 +94,7 @@ public class ManagerScheduleView extends View{
 		int i=2;		
 		while(days.getTimeInMillis() < end.getTimeInMillis()){
 			text = weekFormar.format(days.getTime()).toUpperCase() + " " + days.get(Calendar.DAY_OF_MONTH);
-			calendar.add(new Text(text), i++, 1);
+			calendar.add(new Text(text), i, 1);
 			days.add(Calendar.DAY_OF_MONTH, 1);
 			
 			//check if employee has exception for that day
@@ -104,9 +104,15 @@ public class ManagerScheduleView extends View{
 				//fill availability
 				availabilities = team.getEmployees().get(j).getAvailabilities();
 				for(int m=0; m<availabilities.size(); m++){
-					
+					if(availabilities.get(m).getWeekDay() == days.get(Calendar.DAY_OF_WEEK)){
+						text = availabilities.get(m).getStartTime().toString().substring(0,5) 
+								+ " - " + availabilities.get(m).getEndTime().toString().substring(0,5);
+						calendar.add(new Text(text), i, j+2);
+						break;
+					}
 				}
 			}
+			i++;
 		}
 		
 		
