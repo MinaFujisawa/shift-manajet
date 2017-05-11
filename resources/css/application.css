@@ -111,3 +111,12 @@ CreateShiftSetStartDayView
     	-fx-padding: 10;
     	-fx-background-radius: 5;
 }
+
+
+#Basic-setting .deleteButton {
+    -fx-background-color: transparent;
+    	-fx-font-size: 10px;
+    	-fx-text-fill: #636363;
+    	-fx-padding: 10;
+    	-fx-background-radius: 5;
+}
