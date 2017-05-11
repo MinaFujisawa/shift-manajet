@@ -8,18 +8,20 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import controller.ManagerScheduleController;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Availability;
-import model.Position;
+import model.AvailabilityException;
 import model.Schedule;
 import model.Shift;
 import model.Team;
@@ -73,8 +75,7 @@ public class ManagerScheduleView extends View{
 		Image image = new Image("file:resources/images/icon_user.png");
 		
 		//Column team on the left
-		Team team = new Team(controller.getLoggedUserAsManager());
-		ArrayList<Availability> availabilities;
+		Team team = new Team(controller.getLoggedUserAsManager());		
 		for(int j=0; j<team.getEmployees().size(); j++){
 			//fill staff name
 			text = team.getEmployees().get(j).getName();
@@ -83,6 +84,10 @@ public class ManagerScheduleView extends View{
 		}
 		
 		Schedule schedule = controller.getNewSchedule();
+		ArrayList<Availability> availabilities;
+		ArrayList<AvailabilityException> exceptions;
+		ArrayList<Shift> shifts;
+		boolean hasException, hasShift;
 		
 		GregorianCalendar days = new GregorianCalendar();
 		days.setTime(schedule.getStartDate());
@@ -96,19 +101,51 @@ public class ManagerScheduleView extends View{
 			text = weekFormar.format(days.getTime()).toUpperCase() + " " + days.get(Calendar.DAY_OF_MONTH);
 			calendar.add(new Text(text), i, 1);
 			days.add(Calendar.DAY_OF_MONTH, 1);
+			hasException = false;
+			hasShift = false;
 			
-			//check if employee has exception for that day
-			
-			//if no exception get availability in that day if exists
+			//fill availability
 			for(int j=0; j<team.getEmployees().size(); j++){
-				//fill availability
-				availabilities = team.getEmployees().get(j).getAvailabilities();
-				for(int m=0; m<availabilities.size(); m++){
-					if(availabilities.get(m).getWeekDay() == days.get(Calendar.DAY_OF_WEEK)){
-						text = availabilities.get(m).getStartTime().toString().substring(0,5) 
-								+ " - " + availabilities.get(m).getEndTime().toString().substring(0,5);
-						calendar.add(new Text(text), i, j+2);
+				shifts = team.getEmployees().get(j).getShifts();
+				for(int m=0; m<shifts.size(); m++){
+					if(shifts.get(m).getDate() == days.getTime()){
+						text = "Shift:\n"+shifts.get(m).getStartTime().toString().substring(0,5) 
+								+ " - " + shifts.get(m).getEndTime().toString().substring(0,5);
+						hasShift = true;
 						break;
+					}
+				}
+				
+				
+				if(!hasShift){
+					//check if employee has exception for that day
+					exceptions = team.getEmployees().get(j).getExceptions();
+					for(int m=0; m<exceptions.size(); m++){
+						if(exceptions.get(m).getDate() == days.getTime()){
+							hasException = true;
+							if(exceptions.get(m).getStartTime() != null && exceptions.get(m).getEndTime() != null){
+								text = "Available:\n"+exceptions.get(m).getStartTime().toString().substring(0,5) 
+										+ " - " + exceptions.get(m).getEndTime().toString().substring(0,5);								
+							}else{
+								text = new String();
+							}
+							calendar.add(createTextWithClickEvent(text, stage), i, j+2);
+							break;
+						}
+					}
+					
+					
+					//if no exception get availability in that day if exists
+					if(!hasException){
+						availabilities = team.getEmployees().get(j).getAvailabilities();
+						for(int m=0; m<availabilities.size(); m++){
+							if(availabilities.get(m).getWeekDay() == days.get(Calendar.DAY_OF_WEEK)){
+								text = "Available:\n"+availabilities.get(m).getStartTime().toString().substring(0,5) 
+										+ " - " + availabilities.get(m).getEndTime().toString().substring(0,5);
+								calendar.add(createTextWithClickEvent(text, stage), i, j+2);
+								break;
+							}
+						}
 					}
 				}
 			}
@@ -119,6 +156,19 @@ public class ManagerScheduleView extends View{
 		root.getChildren().add(calendar);
 		stage.setScene(scene);
 		stage.show();
+	}
+	
+	private Text createTextWithClickEvent(String text, Stage stage){
+		Text t = new Text(text);
+		t.setCursor(Cursor.HAND);
+		t.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+		    @Override
+		    public void handle(MouseEvent event) {
+		         CreateShiftWindow shiftView = new CreateShiftWindow();
+		         shiftView.start(stage);
+		    }
+		});
+		return t;
 	}
 
 	public Date getStartDate() {

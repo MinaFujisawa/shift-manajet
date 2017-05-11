@@ -10,9 +10,10 @@ import application.DatabaseConnection;
 
 public class Employee extends User{
 	
-	private ArrayList<Shift> shifts;
 	private Position position;
-	private ArrayList<Availability> availabilities;
+	private ArrayList<Shift> shifts = new ArrayList<Shift>();
+	private ArrayList<Availability> availabilities = new ArrayList<Availability>();
+	private ArrayList<AvailabilityException> exceptions = new ArrayList<AvailabilityException>();
 	
 	public Employee(){
 		
@@ -50,6 +51,15 @@ public class Employee extends User{
 				shift.setUser(employee);
 				employee.shifts.add(shift);
 			}
+			if(employee.shifts != null){
+				Collections.sort(employee.shifts, new Comparator<Shift>() {
+			        @Override
+			        public int compare(Shift shift1, Shift shift2)
+			        {
+			            return  shift1.getDate().compareTo(shift2.getDate());
+			        }
+				});
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}		
@@ -60,25 +70,50 @@ public class Employee extends User{
 		try {
 			rs = DatabaseConnection.executeQuery("SELECT id from availability WHERE userId="+employee.getId());
 			while(rs.next()){
-				if(employee.availabilities == null) employee.availabilities = new ArrayList<Availability>();
 				Availability aval = new Availability(rs.getLong("id"));
 				aval.setEmployee(employee);
 				employee.availabilities.add(aval);
 			}
-			Collections.sort(employee.availabilities, new Comparator<Availability>() {
-		        @Override
-		        public int compare(Availability avl1, Availability avl2)
-		        {
-		            return  avl1.getWeekDay().compareTo(avl2.getWeekDay());
-		        }
-			});
+			if(employee.availabilities != null){
+				Collections.sort(employee.availabilities, new Comparator<Availability>() {
+			        @Override
+			        public int compare(Availability avl1, Availability avl2)
+			        {
+			            return  avl1.getWeekDay().compareTo(avl2.getWeekDay());
+			        }
+				});
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+	}
+	
+	private void loadExceptions(Employee employee) {
+		ResultSet rs;		
+		try {
+			rs = DatabaseConnection.executeQuery("SELECT id from availabilityException WHERE userId="+employee.getId()
+				+ " AND date >= CURDATE()");
+			while(rs.next()){
+				AvailabilityException except = new AvailabilityException(rs.getLong("id"));
+				except.setEmployee(employee);
+				employee.exceptions.add(except);
+			}
+			if(employee.exceptions != null){
+				Collections.sort(employee.exceptions, new Comparator<AvailabilityException>() {
+			        @Override
+			        public int compare(AvailabilityException except1, AvailabilityException except2)
+			        {
+			            return  except1.getDate().compareTo(except2.getDate());
+			        }
+				});
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}		
 	}
 
 	public ArrayList<Shift> getShifts() {
-		if(this.shifts == null)
+		if(this.shifts.size() == 0)
 		{
 			loadShifts(this);
 		}
@@ -98,7 +133,7 @@ public class Employee extends User{
 	}
 
 	public ArrayList<Availability> getAvailabilities() {
-		if(availabilities == null){
+		if(availabilities.size() == 0){
 			loadAvailabilities(this);
 		}
 		return availabilities;
@@ -108,6 +143,18 @@ public class Employee extends User{
 		this.availabilities = availabilities;
 	}
 	
+	
+	public ArrayList<AvailabilityException> getExceptions() {
+		if(exceptions.size() == 0){
+			loadExceptions(this);
+		}
+		return exceptions;
+	}
+
+	public void setExceptions(ArrayList<AvailabilityException> exceptions) {
+		this.exceptions = exceptions;
+	}
+
 	public void saveEmployeePosition(Position pos, Team team){
 		DatabaseConnection.executeQuery("INSERT INTO userTeam VALUES ("
 				+ "NULL, "

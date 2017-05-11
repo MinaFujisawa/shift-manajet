@@ -1,7 +1,11 @@
 package model;
 
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Time;
+
+import application.DatabaseConnection;
 
 public class AvailabilityException {
 	
@@ -10,6 +14,25 @@ public class AvailabilityException {
 	private Date date;
 	private Time startTime;
 	private Time endTime;
+	
+	public AvailabilityException(){
+		
+	}
+	
+	public AvailabilityException(Long id){
+		try {
+			ResultSet rs;
+			rs = DatabaseConnection.executeQuery("SELECT * from availabilityException WHERE id = "+id);
+			if(rs.next()){
+				this.id = rs.getLong("id");
+				this.date = rs.getDate("date");
+				this.startTime = rs.getTime("startTime");
+				this.endTime = rs.getTime("endTime");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public Long getId() {
 		return id;
