@@ -116,9 +116,8 @@ public class BasicSettingView extends View {
             btnStart.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    CreateShiftSetStartDayView startDay = new CreateShiftSetStartDayView();
-
                     try {
+                    	CreateShiftSetStartDayView startDay = new CreateShiftSetStartDayView();
                         startDay.start(stage);
                     } catch (Exception e) {
                         e.printStackTrace();

@@ -83,7 +83,7 @@ public class ManagerScheduleView extends View{
 			calendar.add(new Text(text), 1, j+2);//starts from third line					
 		}
 		
-		Schedule schedule = controller.getNewSchedule();
+		Schedule schedule = controller.getNewSchedule(getStartDate());
 		ArrayList<Availability> availabilities;
 		ArrayList<AvailabilityException> exceptions;
 		ArrayList<Shift> shifts;

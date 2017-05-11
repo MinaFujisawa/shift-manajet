@@ -88,7 +88,8 @@ public class LoginView extends View{
 					loginMessage.setText("");
 					//call method login on controller and check if login is true or false
 					if(controller.login(username.getText(), password.getText())){
-						System.out.println("Login sucessfull!");
+						BasicSettingView settingsView = new BasicSettingView();
+						settingsView.start(stage);
 					}else{
 						//Login false, set message on text component
 						loginMessage.setText("Invalid email/password.");

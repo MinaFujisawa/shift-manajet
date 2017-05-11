@@ -13,11 +13,11 @@ public class ManagerScheduleController extends Controller{
 		return new Schedule(scheduleId);
 	}
 	
-	public Schedule getNewSchedule(){
+	public Schedule getNewSchedule(Date startDate){
 		Schedule schedule = new Schedule();
-		schedule.setStartDate(new Date(System.currentTimeMillis()));
+		schedule.setStartDate(startDate);
 		GregorianCalendar endDate = new GregorianCalendar();
-		endDate.setTime(new Date(System.currentTimeMillis()));
+		endDate.setTime(startDate);
 		
 		switch (new Team(getLoggedUserAsManager()).getScheduleType()) {
 		case WEEKLY:
