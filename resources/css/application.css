@@ -33,6 +33,12 @@
 	-fx-padding: 15 20;
 	-fx-background-radius: 5;
 }
+.subButton {
+	-fx-background-color: transparent;
+    -fx-text-fill: #00a99d;
+    	-fx-padding: 15 10;
+
+}
 
 .button:hover {
     -fx-cursor: hand;
@@ -108,6 +114,15 @@ CreateShiftSetStartDayView
         -fx-background-color: transparent;
     	-fx-font-size: 14px;
     	-fx-text-fill: #ffffff;
+    	-fx-padding: 10;
+    	-fx-background-radius: 5;
+}
+
+
+#Basic-setting .deleteButton {
+    -fx-background-color: transparent;
+    	-fx-font-size: 10px;
+    	-fx-text-fill: #636363;
     	-fx-padding: 10;
     	-fx-background-radius: 5;
 }

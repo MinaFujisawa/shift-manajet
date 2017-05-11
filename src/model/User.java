@@ -20,7 +20,7 @@ public class User {
 	
 	public User(Long userId){
 		try{
-			ResultSet rs = DatabaseConnection.executeQuery("SELECT * FROM user WHERE id ="+userId);
+			ResultSet rs = DatabaseConnection.executeQuery("select * from user where id ="+userId);
 			if(rs.next()){
 				populateUser(rs);
 			}
@@ -71,7 +71,7 @@ public class User {
 	}
 
 	public void login(String email, String password){
-		ResultSet rs = DatabaseConnection.executeQuery("SELECT * FROM user WHERE email = '"+email 
+		ResultSet rs = DatabaseConnection.executeQuery("select * from user where email = '"+email 
 				+"' and password = '" + password + "'");
 		try{
 			if(rs.next()){
